@@ -14,13 +14,14 @@ export const MainNavbar = () => {
   const router = useRouter();
   const session = useSession();
   const [collapsed, setCollapsed] = useState(false);
-
+ 
   const menuItems: MenuProps['items'] = [
     getMenuItem(
       collapsed ? 'Mostrar menú' : 'Cerrar menú',
       'collapser',
       <MenuOutlined />
     ),
+   
     getMenuItem('Administración', 'management', <ApartmentOutlined />, [
       getMenuItem('Residentes', 'residents', null),
     ]),
@@ -32,7 +33,10 @@ export const MainNavbar = () => {
 
   if (session.status === 'authenticated') {
     menuItems.push(
-      getMenuItem('Cerrar cesión', 'sign-out', <PoweroffOutlined />)
+      { type: 'divider' },
+      { type: 'divider' },
+      getMenuItem('Cerrar cesión', 'sign-out', <PoweroffOutlined />),
+      getMenuItem("Hola, " + session.data.user.name  , "username"),
     );
   }
 
@@ -45,7 +49,8 @@ export const MainNavbar = () => {
       case 'sign-out':
         signOut();
         break;
-
+      case 'username':
+        break;
       default:
         router.push(`/${e.key}`);
         break;
